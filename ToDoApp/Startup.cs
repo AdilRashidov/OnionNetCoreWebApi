@@ -29,11 +29,9 @@ namespace ToDoApp
         public IConfiguration Configuration { get; }
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {         
-            //string con = "Server=(localdb)\\mssqllocaldb;Database=todoappdb;Trusted_Connection=True;MultipleActiveResultSets=true";
+        {        
               string connection = Configuration.GetConnectionString("DefaultConnection");    
             services.AddDbContext<ToDoContext>(options => options.UseSqlServer(connection));
-            //services.AddDbContext<ToDoContext>(options => options.UseSqlServer(con));
             services.AddMvc().AddJsonOptions(
             options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
         );

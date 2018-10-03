@@ -10,13 +10,8 @@ namespace ToDoApp.Infrastructure.Data
     {
         public DbSet<ToDo> ToDos { get; set; }
         public DbSet<User> Users { get; set; }
-      //  public ToDoContext() { }
         public ToDoContext(DbContextOptions<ToDoContext> options)    : base(options)       { }
         
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            //optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=todoappdb;Trusted_Connection=True;");
-        }
 
     }
 }
