@@ -30,8 +30,9 @@ namespace ToDoApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {        
-              string connection = Configuration.GetConnectionString("DefaultConnection");    
-            services.AddDbContext<ToDoContext>(options => options.UseSqlServer(connection));
+              string connection = Configuration.GetConnectionString("DefaultConnection");
+            //   services.AddEntityFrameworkNpgsql().AddDbContext<ToDoContext>(options => options.UseNpgsql(connection));
+            services.AddDbContext<ToDoContext>(options => options.UseNpgsql(connection));
             services.AddMvc().AddJsonOptions(
             options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
         );
