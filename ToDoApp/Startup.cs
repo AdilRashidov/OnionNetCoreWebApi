@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore;
+
 using ToDoApp.Domain.Interfaces;
 using ToDoApp.Domain.Core;
 using ToDoApp.Infrastructure.Business;

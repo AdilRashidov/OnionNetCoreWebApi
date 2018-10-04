@@ -10,8 +10,8 @@ namespace ToDoApp.Infrastructure.Data
     {
         public DbSet<ToDo> ToDos { get; set; }
         public DbSet<User> Users { get; set; }
+
         public ToDoContext(DbContextOptions<ToDoContext> options)    : base(options)       { }
         
-
     }
 }
