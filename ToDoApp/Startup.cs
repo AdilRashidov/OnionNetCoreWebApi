@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.AspNetCore.SpaServices.Webpack;
 using ToDoApp.Domain.Interfaces;
 using ToDoApp.Domain.Core;
 using ToDoApp.Infrastructure.Business;
@@ -63,6 +63,10 @@ namespace ToDoApp
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+                {
+                    HotModuleReplacement = true
+                });
             }
             else
             {
@@ -70,6 +74,8 @@ namespace ToDoApp
             }
             app.UseAuthentication();
             app.UseHttpsRedirection();
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
             app.UseMvc();
         }
     }
