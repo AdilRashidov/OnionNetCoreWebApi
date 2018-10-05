@@ -26,8 +26,9 @@ namespace ToDoApp.Controllers
         public ToDoController(IToDoRepository repository, IMapper mapper)
         {
             _repository = repository;
-            _mapper = mapper; 
+            _mapper = mapper;
         }
+
         [Authorize]
         [HttpGet]
         public IEnumerable<ToDoDTO> Get()
