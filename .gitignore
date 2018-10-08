@@ -44,6 +44,10 @@ Generated\ Files/
 *.VisualState.xml
 TestResult.xml
 
+#Angular
+*.js
+*.js.map
+
 # Build Results of an ATL Project
 [Dd]ebugPS/
 [Rr]eleasePS/
