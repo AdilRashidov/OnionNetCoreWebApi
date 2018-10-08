@@ -48,6 +48,7 @@ namespace ToDoApp.Controllers
                     var kek = _repository.UserExist(user);      //наличие пользователя
                     if (kek == false)
                     {
+                        user.Role = "user";
                         _repository.Create(user);
                         _repository.Save();
                         return Ok("You зарегистрированы");

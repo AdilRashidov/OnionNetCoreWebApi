@@ -60,8 +60,11 @@ namespace ToDoApp.Controllers
 
         [Authorize]
         [HttpPut("{id}")]
-        public IActionResult Put([FromBody]ToDo todo)
+        public IActionResult Put([FromBody]ToDoDTO tododto)
         {
+            string name = HttpContext.User.Identity.Name;
+            int userId = _repository.GetUserId(name);
+            var todo = _mapper.Map<ToDo>(tododto);
             if (todo == null)
             {
                 return BadRequest();
