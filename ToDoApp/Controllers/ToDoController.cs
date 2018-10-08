@@ -41,9 +41,10 @@ namespace ToDoApp.Controllers
 
         [Authorize]
         [HttpPost]
-        public IActionResult Post([FromBody]ToDo todo)
+        public IActionResult Post([FromBody]ToDoDTO tododto)
         {
             {
+                var todo = _mapper.Map<ToDo>(tododto);
                 if (todo == null)
                 {
                     return BadRequest();

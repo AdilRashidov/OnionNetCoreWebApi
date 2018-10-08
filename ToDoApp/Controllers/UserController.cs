@@ -7,6 +7,8 @@ using ToDoApp.Infrastructure.Business;
 using ToDoApp.Domain.Core;
 using ToDoApp.Domain.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using ToDoApp.Automapper;
+using AutoMapper;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,9 +18,11 @@ namespace ToDoApp.Controllers
     public class UserController : Controller
     {
         private readonly IUserRepository _repository;
-        public UserController(IUserRepository repository)
+        private readonly IMapper _mapper;
+        public UserController(IUserRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
         // GET: api/<controller>
        // [Authorize]
@@ -35,15 +39,15 @@ namespace ToDoApp.Controllers
         }
         // POST api/<controller>
         [HttpPost]
-        public IActionResult Post([FromBody]User user)
+        public IActionResult Post([FromBody]UserDTO userdto)
         {
             {
                 if (ModelState.IsValid)
                 {
+                    var user = _mapper.Map<User>(userdto);
                     var kek = _repository.UserExist(user);      //наличие пользователя
                     if (kek == false)
                     {
-                        user.Role = "user";
                         _repository.Create(user);
                         _repository.Save();
                         return Ok("You зарегистрированы");

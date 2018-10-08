@@ -12,7 +12,7 @@ namespace ToDoApp.Automapper
         public MapperProfiles()
         {
             CreateMap<ToDo, ToDoDTO> ().ReverseMap();
-            
+            CreateMap<User, UserDTO> ().ReverseMap();         
         }
     }
     

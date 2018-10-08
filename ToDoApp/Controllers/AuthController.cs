@@ -10,6 +10,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using Newtonsoft.Json;
 using System.Security.Claims;
+using ToDoApp.Automapper;
+using AutoMapper;
+
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -25,7 +28,7 @@ namespace ToDoApp.Controllers
         }   
  
        [HttpPost]
-        public async Task Token([FromBody]LoginVm User)
+        public async Task Token([FromBody]UserDTO User)
         {
             
             var username = User.Login;
