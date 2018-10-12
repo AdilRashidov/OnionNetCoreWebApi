@@ -51,6 +51,7 @@ namespace ToDoApp.Controllers
                 }
                 string name = HttpContext.User.Identity.Name;
                 int userId = _repository.GetUserId(name);
+                todo.Check= false;
                 todo.UserId = userId;
                 _repository.Create(todo);
                 _repository.Save();

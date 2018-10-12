@@ -59,6 +59,6 @@ namespace ToDoApp.Controllers
             var todoname = todo.Where(x => x.Desc == search);         //выборка по описанию
             return _mapper.Map<IEnumerable<ToDo>, IEnumerable<ToDoDTO>>(todoname);
         }
-        }
-    
+
+    }   
 }

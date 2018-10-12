@@ -49,7 +49,7 @@ namespace Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Login")
+                    b.Property<string>("Email")
                         .IsRequired();
 
                     b.Property<string>("Password")

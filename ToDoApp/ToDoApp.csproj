@@ -6,15 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="ClientApp\App\app.component.ts" />
-    <None Remove="ClientApp\App\app.module.ts" />
-    <None Remove="ClientApp\App\data.service.ts" />
-    <None Remove="ClientApp\App\main.ts" />
-    <None Remove="ClientApp\App\todo.ts" />
-    <None Remove="ClientApp\polyfills.ts" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.5" />
@@ -24,15 +15,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Business\Business.csproj" />
     <ProjectReference Include="..\Core\Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <TypeScriptCompile Include="ClientApp\App\app.component.ts" />
-    <TypeScriptCompile Include="ClientApp\App\app.module.ts" />
-    <TypeScriptCompile Include="ClientApp\App\data.service.ts" />
-    <TypeScriptCompile Include="ClientApp\App\todo.ts" />
-    <TypeScriptCompile Include="ClientApp\main.ts" />
-    <TypeScriptCompile Include="ClientApp\polyfills.ts" />
   </ItemGroup>
 
 </Project>

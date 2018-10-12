@@ -11,13 +11,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.SpaServices.Webpack;
 using ToDoApp.Domain.Interfaces;
 using ToDoApp.Domain.Core;
 using ToDoApp.Infrastructure.Business;
 using Microsoft.AspNetCore.Http;
 using AutoMapper;
 using ToDoApp.Infrastructure.Data;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.AspNetCore.SpaServices.Extensions;
 
 namespace ToDoApp
 {
@@ -37,8 +38,19 @@ namespace ToDoApp
             services.AddMvc().AddJsonOptions(
             options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
         );
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
+
             services.AddScoped<IToDoRepository, ToDoRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            
             services.AddAutoMapper(); // Adding automapper
                                      //JWT-
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -60,22 +72,18 @@ namespace ToDoApp
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
-                {
-                    HotModuleReplacement = true
-                });
             }
             else
             {
+                app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
             app.UseAuthentication();
-            app.UseHttpsRedirection();
-            app.UseDefaultFiles();
-            app.UseStaticFiles();
+            app.UseCors("CorsPolicy");         
             app.UseMvc();
         }
     }

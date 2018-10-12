@@ -22,6 +22,7 @@ namespace ToDoApp.Infrastructure.Business
         }
         public void Create(User user)
         {
+            user.Role = "user";
             _repository.Users.Add(user);
         }
         public void Delete(int id)
@@ -32,8 +33,8 @@ namespace ToDoApp.Infrastructure.Business
         }
         public bool UserExist(User user)      //проверка, есть ли пользователь
         {
-            string name = user.Login;
-            bool lul =_repository.Users.Any(x=>x.Login==name);
+            string email = user.Email;
+            bool lul =_repository.Users.Any(x=>x.Email==email);
             return lul;
 
         }

@@ -24,7 +24,7 @@ namespace ToDoApp.Infrastructure.Business
         public int GetUserId(string name)
         {
             int ID;
-            var lul = _repository.Users.Where(x => x.Login == name).SingleOrDefault();//current user
+            var lul = _repository.Users.Where(x => x.Email == name).SingleOrDefault();//current user
             return ID = lul.Id;
         }
         public IEnumerable<ToDo> GetToDoUserList(int id)

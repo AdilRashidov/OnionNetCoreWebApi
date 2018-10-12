@@ -27,19 +27,19 @@ namespace ToDoApp.Controllers
             _repository = repository;
         }   
  
-       [HttpPost]
+       [HttpPost("login")]
         public async Task Token([FromBody]UserDTO User)
         {
             
-            var username = User.Login;
+            var email = User.Email;
             var password = User.Password;
-            var identity = GetIdentity(username, password);
+            var identity = GetIdentity(email, password);
 
             if (identity == null)
             {
                 Response.StatusCode = 400;
                 await Response.WriteAsync("Invalid username or password.");
-                return ;
+               // return ;
             }
 
             var now = DateTime.UtcNow;
@@ -62,10 +62,10 @@ namespace ToDoApp.Controllers
             Response.ContentType = "application/json";
             await Response.WriteAsync(JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented }));
         }
-        private ClaimsIdentity GetIdentity(string username, string password)
+        private ClaimsIdentity GetIdentity(string email, string password)
         {
             IEnumerable<User> users = _repository.GetUserList();
-            User user = users.SingleOrDefault(x => x.Login == username && x.Password == password);
+            User user = users.SingleOrDefault(x => x.Email == email && x.Password == password);
 
             if (user == null)
             {
@@ -75,7 +75,7 @@ namespace ToDoApp.Controllers
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Login),
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),
                 new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role)
             };
 
