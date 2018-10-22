@@ -28,18 +28,18 @@ namespace ToDoApp.Controllers
         }
 
         [Authorize]
-        [HttpGet("Name/{search}")]
+        [HttpGet("name/{search}")]
         public IEnumerable<ToDoDTO> GetName(string search)
          { 
             string name = HttpContext.User.Identity.Name;
             int userId = _repository.GetUserId(name);
             var todo = _repository.GetToDoUserList(userId);
-            var todoname = todo.Where(x => x.Name == search);         //выборка по названию
+            var todoname = todo.Where(x => x.Name.Contains(search));         //выборка по названию
             return _mapper.Map<IEnumerable<ToDo>, IEnumerable<ToDoDTO>>(todoname);
          }
 
         [Authorize]
-        [HttpGet("Tags/{search}")]
+        [HttpGet("tags/{search}")]
         public IEnumerable<ToDoDTO> GetTags(string search)
         {
             string name = HttpContext.User.Identity.Name;

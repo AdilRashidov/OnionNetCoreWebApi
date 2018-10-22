@@ -66,6 +66,8 @@ namespace ToDoApp.Infrastructure.Business
             if (tododo.Check == true) { tododo.Check = false; _repository.Entry(tododo).State = EntityState.Modified; return "Zadanie not vypolneno"; }
             else { tododo.Check = true; _repository.Entry(tododo).State = EntityState.Modified; return "Zadanie done";  }
         }
+
+        
         private bool disposed = false;
         public virtual void Dispose(bool disposing)
         {

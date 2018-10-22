@@ -16,6 +16,7 @@ using AutoMapper;
 
 namespace ToDoApp.Controllers
 {
+    [Produces("application/json")]
     [Route("api/[controller]")]
     public class ToDoController : Controller
     {
@@ -74,7 +75,7 @@ namespace ToDoApp.Controllers
      
         [Authorize]
         [HttpPut("do/{id}")]
-        public IActionResult PutDo(int id)
+        public IActionResult PutDo([FromRoute]int id)
             {
             bool todoexist = _repository.ToDoExist(id);
             if (todoexist == false)
