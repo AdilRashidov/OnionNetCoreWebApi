@@ -55,7 +55,7 @@ namespace ToDoApp.Controllers
                     }
                     else
                     {
-                        return Ok("Username существует");
+                        return BadRequest("Username существует");
                     }
                 }
                 else { return BadRequest("Vvedite login и password  "); }

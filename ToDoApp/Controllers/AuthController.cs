@@ -39,7 +39,7 @@ namespace ToDoApp.Controllers
             {
                 Response.StatusCode = 400;
                 await Response.WriteAsync("Invalid username or password.");
-               // return ;
+               return ;
             }
 
             var now = DateTime.UtcNow;
