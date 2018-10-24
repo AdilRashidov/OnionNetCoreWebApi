@@ -35,7 +35,7 @@ namespace ToDoApp.Infrastructure.Business
         }
         public ToDo GetToDo(int id)
         {
-            return _repository.ToDos.Find(id);
+            return _repository.ToDos.FirstOrDefault(x=>x.Id==id);
         }
         public void Create(ToDo todo)
         { 

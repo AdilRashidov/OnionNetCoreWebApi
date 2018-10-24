@@ -16,6 +16,7 @@ using AutoMapper;
 
 namespace ToDoApp.Controllers
 {
+    [Authorize]
     [Produces("application/json")]
     [Route("api/[controller]")]
     public class ToDoController : Controller
@@ -30,7 +31,6 @@ namespace ToDoApp.Controllers
             _mapper = mapper;
         }
 
-        [Authorize]
         [HttpGet]
         public IEnumerable<ToDoDTO> Get()
         {
@@ -39,8 +39,14 @@ namespace ToDoApp.Controllers
             var todo = _repository.GetToDoUserList(userId);
             return _mapper.Map<IEnumerable<ToDo>, IEnumerable<ToDoDTO>>(todo);
         }
+        
+        [HttpGet("{id}")]
+        public ToDoDTO Get(int id)
+        {
+            var todo = _repository.GetToDo(id);
+            return _mapper.Map<ToDoDTO>(todo);
+        } 
 
-        [Authorize]
         [HttpPost]
         public IActionResult Post([FromBody]ToDoDTO tododto)
         {
@@ -60,7 +66,6 @@ namespace ToDoApp.Controllers
             }
         }
 
-        [Authorize]
         [HttpPut("{id}")]
         public IActionResult Put([FromBody]ToDo todo)
         {
@@ -73,7 +78,6 @@ namespace ToDoApp.Controllers
             return Ok(todo);
         }
      
-        [Authorize]
         [HttpPut("do/{id}")]
         public IActionResult PutDo([FromRoute]int id)
             {
