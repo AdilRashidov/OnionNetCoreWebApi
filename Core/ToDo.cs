@@ -12,9 +12,7 @@ namespace ToDoApp.Domain.Core
         public string Name { get; set; }
         [Required]
         public string Tags { get; set; }
-        [Required]
         public string Desc { get; set; }
-        [Required]
         public bool Check { get; set; }
         //[Required]
         public int? UserId { get; set; }
