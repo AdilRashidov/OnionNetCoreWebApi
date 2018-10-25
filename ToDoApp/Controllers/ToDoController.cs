@@ -39,15 +39,6 @@ namespace ToDoApp.Controllers
             var todo = _repository.GetToDoUserList(userId);
             return _mapper.Map<IEnumerable<ToDo>, IEnumerable<ToDoDTO>>(todo);
         }
-
-        [HttpGet("search")]
-        public IEnumerable<ToDoDTO> GetAll()
-        {
-            string name = HttpContext.User.Identity.Name;
-            int userId = _repository.GetUserId(name);
-            var todo = _repository.GetToDoUserList(userId);
-            return _mapper.Map<IEnumerable<ToDo>, IEnumerable<ToDoDTO>>(todo);
-        }
         
         [HttpGet("{id}")]
         public ToDoDTO Get(int id)
@@ -114,11 +105,21 @@ namespace ToDoApp.Controllers
         [HttpGet("search/{search}")]
         public IEnumerable<ToDoDTO> GetName(string search)
          { 
-            string name = HttpContext.User.Identity.Name;
-            int userId = _repository.GetUserId(name);
-            var todo = _repository.GetToDoUserList(userId);
-            var todoname = todo.Where(x => x.Name.Contains(search));         //выборка по названию
-            return _mapper.Map<IEnumerable<ToDo>, IEnumerable<ToDoDTO>>(todoname);
+            if (search=="undefined")
+            {
+                string name = HttpContext.User.Identity.Name;
+                int userId = _repository.GetUserId(name);
+                var todo = _repository.GetToDoUserList(userId);
+                return _mapper.Map<IEnumerable<ToDo>, IEnumerable<ToDoDTO>>(todo); 
+            }
+         else
+            {
+                string name = HttpContext.User.Identity.Name;
+                int userId = _repository.GetUserId(name);
+                var todo = _repository.GetToDoUserList(userId);
+                var todoname = todo.Where(x => x.Name.Contains(search));         //выборка по названию
+                return _mapper.Map<IEnumerable<ToDo>, IEnumerable<ToDoDTO>>(todoname);
+            }
          }
     }
 }
