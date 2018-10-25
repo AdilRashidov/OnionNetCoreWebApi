@@ -39,6 +39,15 @@ namespace ToDoApp.Controllers
             var todo = _repository.GetToDoUserList(userId);
             return _mapper.Map<IEnumerable<ToDo>, IEnumerable<ToDoDTO>>(todo);
         }
+
+        [HttpGet("search")]
+        public IEnumerable<ToDoDTO> GetAll()
+        {
+            string name = HttpContext.User.Identity.Name;
+            int userId = _repository.GetUserId(name);
+            var todo = _repository.GetToDoUserList(userId);
+            return _mapper.Map<IEnumerable<ToDo>, IEnumerable<ToDoDTO>>(todo);
+        }
         
         [HttpGet("{id}")]
         public ToDoDTO Get(int id)
@@ -101,5 +110,15 @@ namespace ToDoApp.Controllers
             _repository.Delete(id);
             _repository.Save();
         }
+                
+        [HttpGet("search/{search}")]
+        public IEnumerable<ToDoDTO> GetName(string search)
+         { 
+            string name = HttpContext.User.Identity.Name;
+            int userId = _repository.GetUserId(name);
+            var todo = _repository.GetToDoUserList(userId);
+            var todoname = todo.Where(x => x.Name.Contains(search));         //выборка по названию
+            return _mapper.Map<IEnumerable<ToDo>, IEnumerable<ToDoDTO>>(todoname);
+         }
     }
 }
