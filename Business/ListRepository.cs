@@ -10,14 +10,14 @@ using ToDoApp.Infrastructure.Data;
 
 namespace ToDoApp.Infrastructure.Business
 {
-    public class TodoListRepository : Repository<TodoList>, ITodoListRepository
+    public class ListRepository : Repository<List>, IListRepository
     {
-        public TodoListRepository(DbContext context) : base(context)
+        public ListRepository(DbContext context) : base(context)
         {}
         
-        public IEnumerable<TodoList> GetTodoListForUser(int id)
+        public IEnumerable<List> GetTodoListForUser(int id)
         {
-            var TodoList = _appContext.ToDoLists.Where(x=>x.ListOwner==id);
+            var TodoList = _appContext.Lists.Where(x=>x.ListOwner==id);
             return TodoList;
         }
         private AppDBContext  _appContext => (AppDBContext) _context;

@@ -8,7 +8,7 @@ namespace ToDoApp.Infrastructure.Business
         readonly AppDBContext _context;
 
         IUserRepository _users;
-        ITodoListRepository _todolists;
+        IListRepository _lists;
         ITodoRepository _todos;
         ITagsRepository _tags;
     
@@ -27,13 +27,13 @@ namespace ToDoApp.Infrastructure.Business
             }
         }
 
-        public ITodoListRepository TodoLists
+        public IListRepository Lists
         {
             get
             {
-                if(_todolists==null)
-                _todolists = new TodoListRepository(_context);
-                return _todolists;
+                if(_lists==null)
+                _lists = new ListRepository(_context);
+                return _lists;
             }
         }
 

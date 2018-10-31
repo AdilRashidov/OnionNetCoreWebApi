@@ -1,22 +1,21 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Linq;
 
 namespace ToDoApp.Domain.Core
 {
-    public class User
+    public class List
     {
-        public User()
+        public List()
         {
             this.UserLists = new List<UserList>();
         }
         public int Id { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public string Role { get; set; }
+        public string Name { get; set; }
+        public int ListOwner { get; set; }
         public ICollection<UserList> UserLists { get; set; }
 
-    }
+        public ICollection<Todo> Todos { get; set; }
 
+    }
 }

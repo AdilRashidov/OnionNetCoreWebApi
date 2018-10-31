@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ToDoApp.Automapper
 {
-    public class TodoListDTO
+    public class ListDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }

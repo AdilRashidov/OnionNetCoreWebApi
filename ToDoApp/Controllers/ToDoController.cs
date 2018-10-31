@@ -35,14 +35,14 @@ namespace ToDoApp.Controllers
         [HttpGet]
         public IEnumerable<ToDoDTO> Get()
         {
-            var todo = _repository.GetToDoUserList(userId);
-            return _mapper.Map<IEnumerable<ToDo>, IEnumerable<ToDoDTO>>(todo);
+           
+            return _mapper.Map<IEnumerable<Todo>, IEnumerable<ToDoDTO>>(todo);
         }
         
         [HttpGet("{id}")]
         public ToDoDTO Get(int id)
         {
-            var todo = _repository.GetToDo(id);
+            var todo = .GetToDo(id);
             return _mapper.Map<ToDoDTO>(todo);
         } 
 
@@ -56,11 +56,11 @@ namespace ToDoApp.Controllers
                     return BadRequest();
                 }
                 string name = HttpContext.User.Identity.Name;
-                int userId = _repository.GetUserId(name);
+                int userId = .GetUserId(name);
                 todo.Check= false;
                 todo.UserId = userId;
-                _repository.Create(todo);
-                _repository.Save();
+                .Create(todo);
+                .Save();
                 return Ok();
             }
         }
@@ -74,22 +74,22 @@ namespace ToDoApp.Controllers
             }
             var todo = _mapper.Map<Todo>(tododto);
             string name = HttpContext.User.Identity.Name;
-            int userId = _repository.GetUserId(name);
+            int userId = .GetUserId(name);
             todo.TodoList.Users=userId;
-            _repository.Update(todo);
-            _repository.Save();
+            .Update(todo);
+            .Save();
             return Ok(todo);
         }
      
         [HttpPut("do/{id}")]
         public IActionResult PutDo([FromRoute]int id)
             {
-            bool todoexist = _repository.ToDoExist(id);
+            bool todoexist = .ToDoExist(id);
             if (todoexist == false)
             { return BadRequest("Takogo taska net"); }
             else {
-                string message =_repository.ToDoDo(id);
-                _repository.Save();
+                string message =.ToDoDo(id);
+                .Save();
                 return Ok(message);
                  } 
             }
@@ -97,8 +97,8 @@ namespace ToDoApp.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {   
-            _repository.Delete(id);
-            _repository.Save();
+            .Delete(id);
+            .Save();
         }
                 
         [HttpGet("search/{search}")]
@@ -107,15 +107,15 @@ namespace ToDoApp.Controllers
             if (search=="undefined")
             {
                 string name = HttpContext.User.Identity.Name;
-                int userId = _repository.GetUserId(name);
-                var todo = _repository.GetToDoUserList(userId);
+                int userId = .GetUserId(name);
+                var todo = .GetToDoUserList(userId);
                 return _mapper.Map<IEnumerable<ToDo>, IEnumerable<ToDoDTO>>(todo); 
             }
          else
             {
                 string name = HttpContext.User.Identity.Name;
-                int userId = _repository.GetUserId(name);
-                var todo = _repository.GetToDoUserList(userId);
+                int userId = .GetUserId(name);
+                var todo = .GetToDoUserList(userId);
                 var todoname = todo.Where(x => x.Name.Contains(search));         //выборка по названию
                 return _mapper.Map<IEnumerable<ToDo>, IEnumerable<ToDoDTO>>(todoname);
             }
