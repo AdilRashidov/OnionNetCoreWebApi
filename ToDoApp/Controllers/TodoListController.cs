@@ -1,11 +1,12 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using ToDoApp.Infrastructure.Business;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ToDoApp.Domain.Core;
 using ToDoApp.Domain.Interfaces;
+using ToDoApp.Infrastructure.Data;
+using ToDoApp.Infrastructure.Business;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
@@ -15,28 +16,36 @@ using AutoMapper;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace ToDoApp.Controllers
+namespace ToDoListApp.Controllers
 {
     [Authorize]
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class ToDoController : Controller
+    public class TodoListController : Controller
     {
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public ToDoController(IUnitOfWork unitOfWork, IMapper mapper,IHttpContextAccessor http)
+        public TodoListController( IUnitOfWork unitOfWork, IMapper mapper )
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
-        [HttpGet]
-        public IEnumerable<ToDoDTO> Get()
+        public int GetUserId()
         {
-            var todo = _repository.GetToDoUserList(userId);
-            return _mapper.Map<IEnumerable<ToDo>, IEnumerable<ToDoDTO>>(todo);
+            string email = HttpContext.User.Identity.Name;           
+            int userId = _unitOfWork.Users.GetUserId(email);
+            return userId;
+        }
+
+        [HttpGet]
+        public IEnumerable<TodoListDTO> Get()
+        {
+            int userId = GetUserId();
+            var todo = _repository.GetToDoListUser(userId);
+            return _mapper.Map<IEnumerable<TodoList>, IEnumerable<TodoListDTO>>(todo);
         }
         
         [HttpGet("{id}")]

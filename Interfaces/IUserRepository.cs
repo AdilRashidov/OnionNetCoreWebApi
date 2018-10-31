@@ -6,12 +6,8 @@ using ToDoApp.Domain.Core;
 
 namespace ToDoApp.Domain.Interfaces
 {
-    public interface IUserRepository:IDisposable
+    public interface IUserRepository:IRepository<User>
     {
-        void Create(User item);
-        IEnumerable<User> GetUserList();
-        void Save();    
-        bool UserExist(User user);
-        void Delete(int id);
+         int GetUserId(string email);
     }
 }

@@ -1,64 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
+﻿using Microsoft.EntityFrameworkCore;
 using ToDoApp.Domain.Core;
 using ToDoApp.Domain.Interfaces;
 using ToDoApp.Infrastructure.Data;
 
 namespace ToDoApp.Infrastructure.Business
 {
-    public class UserRepository:IUserRepository
+    public class UserRepository : Repository<User>,IUserRepository
     {
-        private ToDoContext _repository;
-
-        public UserRepository(ToDoContext context)
+        public UserRepository(DbContext context) : base(context)
+        {}
+        public int GetUserId(string email)
         {
-            _repository = context;
+            var userId = _appContext.Users.SingleOrDefaultAsync(x=>x.Email == email);
+            return userId.Id;
         }
-        public IEnumerable<User> GetUserList()
-        {
-            return _repository.Users.ToList();
-        }
-        public void Create(User user)
-        {
-            user.Role = "user";
-            _repository.Users.Add(user);
-        }
-        public void Delete(int id)
-        {
-            User user = _repository.Users.Find(id);
-            if (user != null)
-                _repository.Users.Remove(user);
-        }
-        public bool UserExist(User user)      //проверка, есть ли пользователь
-        {
-            string email = user.Email;
-            bool lul =_repository.Users.Any(x=>x.Email==email);
-            return lul;
-
-        }
-        public void Save()
-        {
-            _repository.SaveChanges();
-        }
-        private bool disposed = false;
-        public virtual void Dispose(bool disposing)
-        {
-            if (!this.disposed)
-            {
-                if (disposing)
-                {
-                    _repository.Dispose();
-                }
-            }
-            this.disposed = true;
-        }
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
+        private AppDBContext  _appContext => (AppDBContext) _context;
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ToDoApp.Domain.Core;
-using ToDoApp.Domain.Interfaces;
+using ToDoApp.Infrastructure.Business;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -21,10 +21,10 @@ namespace ToDoApp.Controllers
     [Route("api/[controller]")]
     public class AuthController : Controller
     {
-        private readonly IUserRepository _repository;
-        public AuthController(IUserRepository repository)
+        private readonly IUnitOfWork _unitOfWork;
+        public AuthController(IUnitOfWork unitOfWork)
         {
-            _repository = repository;
+            _unitOfWork = unitOfWork;
         }   
  
        [HttpPost("login")]
@@ -41,7 +41,8 @@ namespace ToDoApp.Controllers
                 await Response.WriteAsync("Invalid username or password.");
                return ;
             }
-
+            var alluser = _unitOfWork.Users.GetAll();
+            var user = alluser.SingleOrDefault(x=>x.Email==User.Email);
             var now = DateTime.UtcNow;
             // создаем JWT-токен
             var jwt = new JwtSecurityToken(
@@ -56,7 +57,7 @@ namespace ToDoApp.Controllers
             var response = new
             {
                 access_token = encodedJwt,
-                username = identity.Name
+                userId = user.Id
             };
             // сериализация ответа
             Response.ContentType = "application/json";
@@ -64,15 +65,14 @@ namespace ToDoApp.Controllers
         }
         private ClaimsIdentity GetIdentity(string email, string password)
         {
-            IEnumerable<User> users = _repository.GetUserList();
+            var users = _unitOfWork.Users.GetAll();
             User user = users.SingleOrDefault(x => x.Email == email && x.Password == password);
-
             if (user == null)
             {
                 // если пользователя не найдено
                 return null;
             }
-
+            string userId = Convert.ToString(user.Id);
             var claims = new List<Claim>
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),

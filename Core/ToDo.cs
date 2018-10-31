@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.ComponentModel.DataAnnotations;
 
 namespace ToDoApp.Domain.Core
 {
-    public class ToDo
-    {
+    public class Todo
+    {   
+        public Todo()
+        {
+            this.Tags = new HashSet<Tag>();
+        }
         public int Id { get; set; }
-        [Required]
         public string Name { get; set; }
-        [Required]
-        public string Tags { get; set; }
-        public string Desc { get; set; }
+        public string Description { get; set; }
+        public DateTime DoDate{ get; set;}  
         public bool Check { get; set; }
-        //[Required]
-        public int? UserId { get; set; }
-        public User User { get; set; }
+        public TodoList TodoList {get ; set;}
+        public ICollection<Tag> Tags{get;set;}
 
     }
 }

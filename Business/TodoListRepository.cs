@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using ToDoApp.Domain.Core;
@@ -10,14 +10,15 @@ using ToDoApp.Infrastructure.Data;
 
 namespace ToDoApp.Infrastructure.Business
 {
-    public class TodoRepository : Repository<Todo>, ITodoRepository
+    public class TodoListRepository : Repository<TodoList>, ITodoListRepository
     {
-        public TodoRepository(DbContext context) : base(context)
+        public TodoListRepository(DbContext context) : base(context)
         {}
-        public IEnumerable<Todo> GetTodos()
+        
+        public IEnumerable<TodoList> GetTodoListForUser(int id)
         {
-            IEnumerable<Todo>fix=null;
-            return fix;
+            var TodoList = _appContext.ToDoLists.Where(x=>x.ListOwner==id);
+            return TodoList;
         }
         private AppDBContext  _appContext => (AppDBContext) _context;
     }

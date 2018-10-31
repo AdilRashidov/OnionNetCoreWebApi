@@ -17,11 +17,12 @@ namespace ToDoApp.Controllers
     [Route("api/[controller]")]
     public class AccountController : Controller
     {
-        private readonly IUserRepository _repository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public AccountController(IUserRepository repository, IMapper mapper)
+        
+        public AccountController(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _repository = repository;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
         // GET: api/<controller>
@@ -29,7 +30,7 @@ namespace ToDoApp.Controllers
         [HttpGet]
         public IEnumerable<User> Get()
         {
-            return _repository.GetUserList();
+            return _unitOfWork.Users.GetAll();
         }
         // GET api/<controller>/5
         [HttpGet("{id}")]
@@ -43,22 +44,20 @@ namespace ToDoApp.Controllers
         public IActionResult Post([FromBody]UserDTO userdto)
         {
             {
-                if (ModelState.IsValid)
-                {
                     var user = _mapper.Map<User>(userdto);
-                    var kek = _repository.UserExist(user);      //наличие пользователя
-                    if (kek == false)
+                    var alluser = _unitOfWork.Users.GetAll();
+                    User UserExist = alluser.SingleOrDefault(x => 
+                    x.Email == user.Email && x.Password == user.Password); //наличие пользователя
+                    if (UserExist == null)
                     {
-                        _repository.Create(user);
-                        _repository.Save();
+                        _unitOfWork.Users.Add(user);
+                        _unitOfWork.SaveChanges();
                         return Ok("You зарегистрированы");
                     }
                     else
                     {
                         return BadRequest("Username существует");
                     }
-                }
-                else { return BadRequest("Vvedite login и password  "); }
             }
         }
         
@@ -72,8 +71,8 @@ namespace ToDoApp.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            _repository.Delete(id);
-            _repository.Save();
+            _unitOfWork.Users.Delete(id);
+            _unitOfWork.SaveChanges();
         }
     }
 }
