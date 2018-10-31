@@ -15,10 +15,10 @@ namespace ToDoApp.Infrastructure.Business
         public ListRepository(DbContext context) : base(context)
         {}
         
-        public IEnumerable<List> GetTodoListForUser(int id)
+        public IEnumerable<List> GetUserList(int id)
         {
-            var TodoList = _appContext.Lists.Where(x=>x.ListOwner==id);
-            return TodoList;
+            var List = _appContext.Lists.Where(x=>x.ListOwner==id);
+            return List;
         }
         private AppDBContext  _appContext => (AppDBContext) _context;
     }

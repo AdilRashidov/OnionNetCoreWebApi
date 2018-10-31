@@ -8,6 +8,6 @@ namespace ToDoApp.Domain.Interfaces
 {
     public interface IListRepository:IRepository<List>
     {
-        IEnumerable<List> GetTodoListForUser(int id);
+        IEnumerable<List> GetUserList(int id);
     }
 }
