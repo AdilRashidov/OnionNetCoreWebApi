@@ -33,6 +33,7 @@ namespace ToDoApp
         public void ConfigureServices(IServiceCollection services)
         {        
             string connection = Configuration.GetConnectionString("DefaultConnection");
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddDbContext<AppDBContext>(options => options.UseNpgsql(connection));
             services.AddMvc().AddJsonOptions(

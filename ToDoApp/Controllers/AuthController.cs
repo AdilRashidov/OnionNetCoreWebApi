@@ -29,8 +29,7 @@ namespace ToDoApp.Controllers
  
        [HttpPost("login")]
         public async Task Token([FromBody]UserDTO User)
-        {
-            
+        {   
             var email = User.Email;
             var password = User.Password;
             var identity = GetIdentity(email, password);

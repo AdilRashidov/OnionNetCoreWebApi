@@ -21,13 +21,13 @@ namespace ToDoApp.Controllers
     [Authorize]
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class ListController : Controller
+    public class TodoController : Controller
     {
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public ListController( IUnitOfWork unitOfWork, IMapper mapper )
+        public TodoController( IUnitOfWork unitOfWork, IMapper mapper )
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -41,34 +41,13 @@ namespace ToDoApp.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<List> Get()
+        public IEnumerable<ListDTO> Get()
         {
             int userId = GetUserId();
-            var lists = _unitOfWork.Lists.GetUserList(userId);
-            if (lists ==null){return lists;}
-            return (lists);
-        }
-        
-        [HttpGet("{id}")]
-        public ListDTO GetList(int id)
-        {
-            int userId = GetUserId();
-            var list = _unitOfWork.Lists.Get(id);
-            return _mapper.Map<ListDTO>(list);
+            var todo = _unitOfWork.Lists.GetUserList(userId);
+            return _mapper.Map<IEnumerable<List>, IEnumerable<ListDTO>>(todo);
         }
 
-        [HttpPost]
-        public IActionResult Post([FromBody] ListDTO listdto)
-        {
-            int userId = GetUserId();
-            var list = _mapper.Map<List>(listdto);
-            list.ListOwner = userId;
-            _unitOfWork.Lists.Add(list);
-            _unitOfWork.SaveChanges();
-            return Ok("vse ok");
-        }
-
-        
         
 
         

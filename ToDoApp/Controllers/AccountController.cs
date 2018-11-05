@@ -46,11 +46,14 @@ namespace ToDoApp.Controllers
             {
                     var user = _mapper.Map<User>(userdto);
                     var alluser = _unitOfWork.Users.GetAll();
-                    User UserExist = alluser.SingleOrDefault(x => 
+                    var UserExist = alluser.SingleOrDefault(x => 
                     x.Email == user.Email && x.Password == user.Password); //наличие пользователя
                     if (UserExist == null)
                     {
+                        user.Role="user";
                         _unitOfWork.Users.Add(user);
+                        List list = new List {Name = "def",};
+                        _unitOfWork.Lists.Add(list);
                         _unitOfWork.SaveChanges();
                         return Ok("You зарегистрированы");
                     }
