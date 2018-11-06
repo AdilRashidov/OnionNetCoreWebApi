@@ -36,17 +36,16 @@ namespace ToDoApp.Controllers
         public int GetUserId()
         {
             string email = HttpContext.User.Identity.Name;           
-            int userId = _unitOfWork.Users.GetUserId(email);
-            return userId;
+            var user = _unitOfWork.Users.GetSingleOrDefault(x=>x.Email==email);
+            return user.Id;
         }
 
         [HttpGet]
-        public IEnumerable<List> Get()
+        public IEnumerable<ListDTO> Get()
         {
             int userId = GetUserId();
             var lists = _unitOfWork.Lists.GetUserList(userId);
-            if (lists ==null){return lists;}
-            return (lists);
+            return _mapper.Map<IEnumerable<List>,IEnumerable<ListDTO>>(lists);
         }
         
         [HttpGet("{id}")]
@@ -68,6 +67,23 @@ namespace ToDoApp.Controllers
             return Ok("vse ok");
         }
 
+        [HttpDelete("{id}")]
+        public IActionResult Delete (int id)
+        {
+            int userId = GetUserId();
+            var listown =_unitOfWork.Lists.GetSingleOrDefault(x=>x.Id==id && x.ListOwner==userId ); //Является ли удаляющий владельцем листа
+            if (listown == null)
+            {
+                return BadRequest("ne tvoe");
+            }
+            else
+            {
+                _unitOfWork.Lists.Delete(id);
+                _unitOfWork.SaveChanges();
+                return Ok("Udaleno");       
+            }
+            
+        }
         
         
 

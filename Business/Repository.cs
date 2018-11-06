@@ -43,6 +43,10 @@ namespace ToDoApp.Infrastructure.Business
             if (entity != null)
             _entities.Remove(entity);
         }
+        public virtual TEntity GetSingleOrDefault(Expression<Func<TEntity, bool>> predicate)
+        {
+            return _entities.SingleOrDefault(predicate);
+        }
 
     }
 }

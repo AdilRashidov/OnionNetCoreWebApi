@@ -56,7 +56,7 @@ namespace ToDoApp.Controllers
             var response = new
             {
                 access_token = encodedJwt,
-                userId = user.Id
+                username = identity.Name
             };
             // сериализация ответа
             Response.ContentType = "application/json";

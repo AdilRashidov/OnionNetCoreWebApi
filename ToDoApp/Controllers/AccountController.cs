@@ -52,8 +52,6 @@ namespace ToDoApp.Controllers
                     {
                         user.Role="user";
                         _unitOfWork.Users.Add(user);
-                        List list = new List {Name = "def",};
-                        _unitOfWork.Lists.Add(list);
                         _unitOfWork.SaveChanges();
                         return Ok("You зарегистрированы");
                     }

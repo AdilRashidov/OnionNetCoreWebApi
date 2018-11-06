@@ -11,8 +11,8 @@ namespace ToDoApp.Infrastructure.Business
         {}
         public int GetUserId(string email)
         {
-            var userId = _appContext.Users.SingleOrDefaultAsync(x=>x.Email == email);
-            return userId.Id;
+            return 0;
+            
         }
         private AppDBContext  _appContext => (AppDBContext) _context;
     }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq.Expressions;
 using ToDoApp.Domain.Core;
 
     namespace ToDoApp.Domain.Interfaces
@@ -12,5 +13,6 @@ using ToDoApp.Domain.Core;
         void Add(TEntity entity);
         void Update(TEntity entity);
         void Delete(int id);
+        TEntity GetSingleOrDefault(Expression<Func<TEntity, bool>> predicate);
     }
 }
