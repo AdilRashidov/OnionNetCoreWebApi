@@ -46,8 +46,7 @@ namespace ToDoApp.Controllers
             {
                     var user = _mapper.Map<User>(userdto);
                     var alluser = _unitOfWork.Users.GetAll();
-                    var UserExist = alluser.SingleOrDefault(x => 
-                    x.Email == user.Email && x.Password == user.Password); //наличие пользователя
+                    var UserExist = alluser.SingleOrDefault(x => x.Email == user.Email); //наличие пользователя
                     if (UserExist == null)
                     {
                         user.Role="user";
